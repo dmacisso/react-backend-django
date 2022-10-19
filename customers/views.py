@@ -1,13 +1,15 @@
 import imp
 from customers.models import Customer
 from django.http import JsonResponse, Http404
-from customers.serialzers import CustomerSerializer
-from rest_framework.decorators import api_view
+from customers.serializers import CustomerSerializer
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.permissions import IsAuthenticated
 
 
 @api_view(['GET', 'POST'])
+@permission_classes([IsAuthenticated])
 def customers(request):
     # invoke serializer and return to client
     if request.method == 'GET':
@@ -20,10 +22,10 @@ def customers(request):
             serializer.save()
             return Response({'customer': serializer.data}, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-        
 
 
 @api_view(['GET', 'POST', 'DELETE'])
+@permission_classes([IsAuthenticated])
 def customer(request, id):
     # invoke serializer and return to client
     try:
