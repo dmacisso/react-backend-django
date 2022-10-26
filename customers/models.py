@@ -7,4 +7,4 @@ class Customer(models.Model):
     industry = models.CharField(max_length=100)
 
     def __str__(self):
-        return f"{self.name} {self.industry}"
+        return f"{self.id} -  {self.name} {self.industry}"
